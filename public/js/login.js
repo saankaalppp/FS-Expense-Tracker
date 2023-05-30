@@ -76,7 +76,6 @@ function checkEmail(input) {
         console.error(err);
     }
 }
-
 function checkPass(input) {
     try{
         if(input.value == undefined || input.value == null || input.value == ''){
