@@ -1,38 +1,22 @@
-const path = require('path');
-
-const express = require('express');
-const bodyParser = require('body-parser');   
-
-//const errorController = require('./controllers/error');
-
-const sequelize = require('./util/database');
+const express = require('express')
+const app = express()
+const bodyParser=require("body-parser")
+const sequelize = require('./models/userModel')
+const cors=require("cors")
+const Userroutes = require('./routes/user')
 
 
-var cors = require('cors');
-
-const app = express();
-
-app.use(cors());
-
-
-const userRoutes = require('./routes/user');    
+app.use(express.static("public"))
+app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}));
+// app.use(express.static('public'))
 
 
-app.use(bodyParser.json({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));  
+// app.use(routes)
+app.use('/user',Userroutes)
 
-app.use('/user', userRoutes);
-
-
-
-// app.use(errorController.get404);
-
-sequelize 
-  .sync({force:false}) 
-  .then(result => {
-    // console.log(result);
-    app.listen(4000);
+app.listen(4000)
+sequelize.sync().then(() => {
+    // app.listen(4000)
 })
-.catch(err => {
-    console.log(err);
-});

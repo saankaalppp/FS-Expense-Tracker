@@ -1,27 +1,40 @@
-const User = require('../models/user');
+const path = require('path')
 
-function isstringinvalid(string) {
-    if(string == undefined || string.length=== 0){
-        return true;
-    }else {
-        return false;
+const User = require('../models/userModel')
+const rootDir = path.dirname(require.main.filename);
+
+exports.createNewUser = async (req,res) => {
+    try {
+        User.create({
+            name:req.body.userName,
+            email : req.body.userEmail,
+            password : req.body.userPassword
+
+        }).then((result) => {
+            console.log(req.body.username,req.body.email,req.body.password)
+            res.send("user created successfully")
+        })
+    } catch (error) {
+        console.log(error);
     }
 }
 
-exports.signUp = async (req,res,next) => {
-    try{
-        const { name, email , password } = req.body;
-        console.log('email',email,password)
-        if(isstringinvalid(name) || isstringinvalid(email) || isstringinvalid(password)){
-            return res.status(400).json({err: "Bad params . something is missing"})
+exports.checkUser = async (req,res) => {
+      try{
+        if(await User.findOne({
+            where : {
+                email : req.body.userEmail
+            }
+        })){
+            return true;
         }
-        const saltrounds = 10;
-        bcrypt.hash(password, saltrounds, async (err,hash) => {
-        await User.create( { name:name,email:email,password:hash})
-           res.status(201).json({message: 'Succesfully done'})
-           })
-    } catch(err) {
-        res.status(500).json(err);
-
+        return false;
     }
+    catch(err){
+        console.error(err);
+    }
+}
+
+exports.signUppage = (req,res) => {
+    res.sendFile(path.join(rootDir, 'public', 'signup.html'));
 }
