@@ -17,7 +17,12 @@ signInForm.addEventListener('submit', async (e) => {
     try {
         const result = await axiosInstance.post('/user/signin', user);
         
-        setAlert(result);
+        if(result.data.success) {
+            setAlert(result);
+            setTimeout(() => {
+                window.location = 'file:///D:/ExpenseTracker/views/expense.html';
+            }, 3000);
+        }
     } catch(err) {
         setAlert(err.response);
         console.clear();
