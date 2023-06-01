@@ -19,6 +19,7 @@ signInForm.addEventListener('submit', async (e) => {
         
         if(result.data.success) {
             setAlert(result);
+            localStorage.setItem('token', result.data.token);
             setTimeout(() => {
                 window.location = 'file:///D:/ExpenseTracker/views/expense.html';
             }, 3000);

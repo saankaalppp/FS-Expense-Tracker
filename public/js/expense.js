@@ -30,7 +30,8 @@ form.addEventListener('submit', async (e) => {
     console.log(desc.value === '');
 
         try {
-            await axiosInstance.post('/add-expense', newExpense);
+            const token = localStorage.getItem('token');
+            await axiosInstance.post('/add-expense', newExpense, { headers: { "Authorization": token} });
         } catch(err) {
             console.log(err);
         }
@@ -43,8 +44,15 @@ form.addEventListener('submit', async (e) => {
 
 
 async function render() {
-    const result = await axiosInstance.get('/expenses');
-    const expenses = result.data;
+    let result;
+    try {
+        const token = localStorage.getItem('token');
+        result = await axiosInstance.get('/expenses', { headers: { "Authorization": token} });
+    } catch(err) {
+        console.log(err);
+    }
+    console.log(result);
+    const expenses = result.data.expenses;
     content.innerHTML = "";
 
     if(expenses.length == 0) {
@@ -83,6 +91,7 @@ async function render() {
 }
 
 async function deleteExpense(id) {
-    await axiosInstance.post(`/delete-expense/${id}`);
+    const token = localStorage.getItem('token');
+    await axiosInstance.post(`/delete-expense/${id}`, {}, { headers: { "Authorization": token} });
     render();
 }

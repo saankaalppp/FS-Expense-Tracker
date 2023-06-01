@@ -3,10 +3,11 @@ const Expense = require('../models/expense');
 // getExpenses
 module.exports.getExpenses = async (req, res, next) => {
     try{
-        const expenses = await Expense.findAll();
-        return res.json(expenses);
+        const expenses = await req.user.getExpenses();
+        return res.status(200).json({ expenses: expenses, success: true });
     } catch(err) {
-        console.log(err);
+        // console.log(err);
+        return res.status(500).json({ message: "Some error occurred" , success: false });
     }
 
 }
@@ -15,14 +16,15 @@ module.exports.getExpenses = async (req, res, next) => {
 
 module.exports.postAddExpense = async (req, res, next) => {
     try {
-        const result = await Expense.create({
+        await req.user.createExpense({
             amount: req.body.amount,
             description: req.body.description,
             category: req.body.category
         });
-        return res.json({ created: true });
+        return res.status(200).json({ success: true });
     } catch(err) {
         console.log(err);
+        return res.status(500).json({ message: "Some error occurred", success: false });
     }
 }
 
@@ -31,10 +33,12 @@ module.exports.postAddExpense = async (req, res, next) => {
 
 module.exports.postDeleteExpense = async (req, res, next) => {
     try {
-        const expense = await Expense.findByPk(req.params.expenseId);
-        const result = await expense.destroy();
+        const expenses = await req.user.getExpenses({ where: { id: req.params.expenseId }});
+        const expense = expenses[0];
+        return res.status(200).json({ success: true });
         return res.json({ deleted: true });
     } catch(err) {
-        console.log(err);
+       // console.log(err);
+       return res.status(500).json({ message: "Some error occurred", success: false });
     }
 }
