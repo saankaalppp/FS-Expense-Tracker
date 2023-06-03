@@ -4,9 +4,9 @@ const controllerUser = require('../controllers/user')
 
 
 
-router.get('/signup',controllerUser.signUppage)
-router.post('/signup',controllerUser.createNewUser)
-router.post('/checkUser',controllerUser.checkUser)
+router.get('/signup',controllerUser.postUserSignUp )
+router.post('/signup',controllerUser.postUserSignUp)
+router.post('/checkUser',controllerUser.postUserSignIn)
 
 
 

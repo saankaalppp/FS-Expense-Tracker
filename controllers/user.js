@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 module.exports.postUserSignUp = async (req, res, next) => {
     try {
@@ -48,7 +49,8 @@ module.exports.postUserSignIn = async (req, res, next) => {
 };
 
 const generateAccessToken = function(user) {
-    const token = jwt.sign(user, 'mySecureKey');
+    console.log("authenticating..." + process.env.PRIVATE_KEY);
+    const token = jwt.sign(user, process.env.PRIVATE_KEY);
     console.log(token);
     return token;
 }

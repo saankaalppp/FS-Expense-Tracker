@@ -17,9 +17,10 @@ const User = sequelize.define('User',{
         unique : true,
         allowNul : false
     },
-    password : {
-        type : Sequelize.STRING,
-        allowNul : false
+    password: Sequelize.STRING,
+    isPremium: {
+        type: Sequelize.BOOLEAN,
+        default: false
     }
 })
 

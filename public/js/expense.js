@@ -6,6 +6,8 @@ const type = document.getElementById('type');
 const expenseId = document.getElementById('id');
 const submitBtn = document.getElementById('submit-btn');
 const myModal = document.getElementById('addExpenseModal');
+const premBtnC = document.getElementById('prembtnc');
+const premBtn = document.getElementById('prembtn');
 let content = document.getElementById('content');
 
 const axiosInstance = axios.create({
@@ -92,6 +94,46 @@ async function render() {
 
 async function deleteExpense(id) {
     const token = localStorage.getItem('token');
-    await axiosInstance.post(`/delete-expense/${id}`, {}, { headers: { "Authorization": token} });
+    await axiosInstance.post(`/delete-expense`, { expenseId: id }, { headers: { "Authorization": token} });
     render();
+}
+// premium feature
+
+premBtn.onclick = async function(e) {
+    const token = localStorage.getItem('token');
+    try {
+        var response = await axiosInstance.get('/purchase/premiumMembership', { headers: { 'Authorization': token } });
+        console.log(response);
+    } catch(err) {
+        console.log(err);
+        return;
+    }
+
+    const options = {
+        "key": response.data.key_id,
+        "order_id": response.data.order.id,
+        "handler": async function(response) {
+            await axiosInstance.post('http://localhost:3000/purchase/updatetransactionstatus', {
+                order_id: options.order_id,
+                payment_id: response.razorpay_payment_id
+            }, { headers: { 'Authorization': token } });
+
+            alert('You are premium user now.');
+
+            premBtnC.style.display = 'none';
+        }
+    };
+
+    const rzp1 = new Razorpay(options);
+    rzp1.open();
+    e.preventDefault();
+
+    rzp1.on('payment.failed', async function(response) {
+        console.log(response);
+        await axiosInstance.post('http://localhost:3000/purchase/updatetransactionstatus', {
+                order_id: options.order_id,
+                payment_id: response.razorpay_payment_id
+            }, { headers: { 'Authorization': token } });
+        alert("Something went wrong!");
+    });
 }
