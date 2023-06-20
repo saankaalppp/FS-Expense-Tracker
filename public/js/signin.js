@@ -2,8 +2,6 @@ const signInForm = document.getElementById('signin-form');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 const alertText = document.getElementById('alert-text');
-// import { setAlert } from './alert.js';
-
 const axiosInstance = axios.create({
     baseURL: 'http://localhost:3000'
 });
@@ -16,21 +14,21 @@ signInForm.addEventListener('submit', async (e) => {
 
     try {
         const result = await axiosInstance.post('/user/signin', user);
-        
         if(result.data.success) {
             setAlert(result);
             localStorage.setItem('token', result.data.token);
             setTimeout(() => {
-                window.location = 'file:///D:/ExpenseTracker/views/expense.html';
-            }, 3000);
+                window.location.href = '../../views/expense.html';
+            }, 2000);
         }
+
+
     } catch(err) {
         setAlert(err.response);
         console.clear();
     }
 });
 function setAlert(result) {
-
     if(!result.data.success) {
         alertText.innerText = result.data.message;
         if(alertText.classList.contains('alert-success'))
@@ -40,7 +38,6 @@ function setAlert(result) {
         alertText.hidden = "";
     }
     else {
-        alertText.innerText = alertTextPass;
         alertText.innerText = result.data.message;
         if(alertText.classList.contains('alert-danger'))
             alertText.classList.remove('alert-danger');
@@ -48,8 +45,4 @@ function setAlert(result) {
             alertText.classList.add('alert-success');
         alertText.hidden = "";
     }
-    signInForm.reset();
-    setTimeout(() => {
-        alertText.hidden = "hidden";
-    }, 5000);
 }

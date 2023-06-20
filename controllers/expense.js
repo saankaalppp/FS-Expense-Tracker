@@ -1,6 +1,6 @@
 const Expense = require('../models/expense');
-
 // getExpenses
+
 module.exports.getExpenses = async (req, res, next) => {
     try{
         const expenses = await req.user.getExpenses();
@@ -9,7 +9,6 @@ module.exports.getExpenses = async (req, res, next) => {
         // console.log(err);
         return res.status(500).json({ message: "Some error occurred" , success: false });
     }
-
 }
 
 // postAddExpense
@@ -28,17 +27,16 @@ module.exports.postAddExpense = async (req, res, next) => {
     }
 }
 
-
 // postDeleteExpense
 
 module.exports.postDeleteExpense = async (req, res, next) => {
     try {
         const expenses = await req.user.getExpenses({ where: { id: req.body.expenseId }});
         const expense = expenses[0];
+        const result = await expense.destroy();
         return res.status(200).json({ success: true });
-        return res.json({ deleted: true });
     } catch(err) {
-       // console.log(err);
-       return res.status(500).json({ message: "Some error occurred", success: false });
+        // console.log(err);
+        return res.status(500).json({ message: "Some error occurred", success: false });
     }
 }

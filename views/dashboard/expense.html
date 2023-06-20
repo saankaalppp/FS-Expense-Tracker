@@ -32,22 +32,23 @@
         }
     </style>
 </head>
-
 <body>
-    
-    <img src="../public/images/bg3.jpg" class="img-fluid w-100 h-100" alt="Responsive image" style="position: absolute;top: 0;bottom: 0;z-index: -1;">
+
+    <img src="../../public/images/bg3.png" class="img-fluid w-100 h-100" alt="Responsive image" style="position: absolute;top: 0;bottom: 0;z-index: -1;">
 
     <div class="container mt-4" style="z-index: 1;">
         <div class="title d-flex justify-content-center align-items-center mt-5 text-white">
             <h2 style="font-family: 'Josefin Sans', sans-serif;">My Expenses</h2>
         </div>
-        <div id="prembtnc" style="position: absolute;top: 7vh;right: 9vw;">
 
+        <div id="prembtnc" style="position: absolute;top: 7vh;right: 9vw;">
             <button id="prembtn" class="btn btn-outline-warning">Buy Premium</button>
+        </div>
+        <div id="premtextc" class="text-warning" style="position: absolute;top: 7vh;right: 9vw;display: none;">
+            <h4>Premium User</h4>
         </div>
 
             <div class="sticky mt-5 mb-4">
-
                 <table class="table table-warning text-dark table-hover table-info table-borderless">
                     <thead class="mb-5" style="font-family: 'Exo 2', sans-serif;">
                         <tr class="mt-5">
@@ -78,9 +79,12 @@
             </div>
     </div>
 
-    <div class="position-absolute bottom-0 mb-5" style="left: 44%;">
-        <button type="button" id="addExpenseBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+    <div class="position-absolute bottom-0 mb-5 d-flex justify-content-between align-items-center" style="left: 44%;">
+        <button id="addExpenseBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
             Add New Expense
+        </button>
+        <button id="showleaderboardbtn" class="btn btn-secondary" style="margin-left: 1rem;display: none;">
+            Show Leaderboard
         </button>
     </div>
 
@@ -139,7 +143,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="../public/js/expense.js"></script>
+    <script src="../../public/js/expense.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
 

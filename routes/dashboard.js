@@ -1,17 +1,12 @@
 const expenseController = require('../controllers/expense');
+const leaderboardController = require('../controllers/premium');
 const userAuthentication = require('../middleware/userauthentication');
 const express = require('express');
 const router = express.Router();
 
-// getExpenses
-
 router.get('/expenses', userAuthentication.authenticate,  expenseController.getExpenses);
 
-// addExpense
-
 router.post('/add-expense', userAuthentication.authenticate, expenseController.postAddExpense);
-
-// deleteExpense
 
 router.post('/delete-expense/', userAuthentication.authenticate, expenseController.postDeleteExpense);
 
