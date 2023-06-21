@@ -1,5 +1,6 @@
 const Razorpay = require('razorpay');
 const Order = require('../models/order');
+const userController = require('./user');
 const shortid = require('shortid');
 require('dotenv').config();
 
@@ -38,7 +39,14 @@ module.exports.updateTransactionStatus = async (req, res) => {
         const updateStatusToSuccess = order.update({ paymentId: payment_id, status: "SUCCESSFULL" });
         const updateUserToPremium = req.user.update({ isPremium: true });
         Promise.all([updateStatusToSuccess, updateUserToPremium]).then(() => {
-            return res.status(202).json({ message: "Transaction Successfull", success: true });
+            const { id, name, email } = req.user;
+            const updatedUser = {
+                userId: id,
+                name: name,
+                email: email,
+                isPremium: true
+            };
+            return res.status(202).json({ message: "Transaction Successfull", success: true, token:userController.generateAccessToken(updatedUser) });
         }).catch((err) => {
             throw new Error(err);
         });

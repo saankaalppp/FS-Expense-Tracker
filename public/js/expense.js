@@ -150,6 +150,7 @@ premBtn.onclick = async function(e) {
                 payment_id: response.razorpay_payment_id
             }, { headers: { 'Authorization': token } });
         alert("Something went wrong!");
+        render();
     });
 
 }
