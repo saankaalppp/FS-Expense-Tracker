@@ -38,7 +38,7 @@ async function render() {
                     <tr>
                         <th class="col-1">${i+1}</th>
                         <td class="col-3">${user.name}</td>
-                        <td class="col-2">${user.total_expense}</td>
+                        <td class="col-2">${user.totalExpense}</td>
                     </tr>
                 </tbody>
             </table>

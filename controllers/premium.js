@@ -5,15 +5,8 @@ const sequelize = require('../util/database');
 module.exports.getLeaderboardData = async (req, res, next) => {
     try {
         const lbData = await User.findAll({
-            attributes: ['id', 'name', [sequelize.fn('sum', sequelize.col('amount')), 'total_expense']],
-            include: [
-                {
-                    model: Expense,
-                    attributes: []
-                }
-            ],
-            group: ['users.id'],
-            order: [['total_expense', 'DESC']]
+            attributes: ['id', 'name', 'totalExpense'],
+            order: [['totalExpense', 'DESC']]
         });
 
         res.status(200).json({ success: true, lbData: lbData });

@@ -1,4 +1,5 @@
 const Expense = require('../models/expense');
+const User = require('../models/user');
 // getExpenses
 
 module.exports.getExpenses = async (req, res, next) => {
@@ -20,6 +21,11 @@ module.exports.postAddExpense = async (req, res, next) => {
             description: req.body.description,
             category: req.body.category
         });
+        const user = req.user;
+
+        user.totalExpense = Number(user.totalExpense) + Number(req.body.amount);
+
+        await user.save();
         return res.status(200).json({ success: true });
     } catch(err) {
         console.log(err);
