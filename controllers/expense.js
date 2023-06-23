@@ -24,7 +24,7 @@ module.exports.postAddExpense = async (req, res, next) => {
             description: req.body.description,
             category: req.body.category
         }, { transaction: t });
-        const user = req.user;
+        // const user = req.user;
 
         user.totalExpense = Number(user.totalExpense) + Number(req.body.amount);
 
