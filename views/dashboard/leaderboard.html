@@ -28,7 +28,7 @@
         }
 
         .data {
-            height: 340px;
+            height: 60vh;;
             overflow-y: auto;
         }
     </style>
@@ -63,9 +63,13 @@
         <div class="d-flex justify-content-center align-items-center mt-4">
             <h5 id="scroll-text" class="text-white" hidden>Scroll down for more &darr;</h5>
         </div>
-        <div class="position-absolute bottom-0 mb-5" style="left: 44%;">
+    </div>
+
+    <div class="w-100 m-auto" style="position: absolute;bottom: 1rem">
+        <div class="d-flex justify-content-center align-items-center">
             <button id="gobackbtn" class="btn btn-primary">
-                Go Back
+                Back  to Dashboard
+
             </button>
         </div>
     </div>
@@ -75,6 +79,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../../public/js/leaderboard.js"></script>
+    <script src="https://kit.fontawesome.com/4f9275b3db.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

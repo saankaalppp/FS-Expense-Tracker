@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const ForgotPasswordRequest = require('../models/forgotpasswordrequest');
+const FilesDownloaded = require('../models/filesdownloaded');   
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
@@ -158,11 +159,30 @@ const postUpdatePassword = async (req, res, next) => {
         return res.status(500).json({ message: "Something went wrong!", success: false });
     }
 }
+
+const getFilesDownloaded = async (req, res) => {
+    try {
+        const result = await FilesDownloaded.findAll({ where: { userId: req.user.id } });
+        return res.status(200).json({ filesData: result, success: true });
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json({ success: false, err: err });
+    }
+}
+
+const generateAccessToken = function (user) {
+    console.log("authenticating..." + process.env.PRIVATE_KEY);
+    const token = jwt.sign(user, process.env.PRIVATE_KEY);
+    console.log(token);
+    return token;
+}
+
 module.exports = {
     postUserSignUp,
     postUserSignIn,
     forgotPassword,
     getResetPassword,
     postUpdatePassword, 
+    getFilesDownloaded,
     generateAccessToken
 };  

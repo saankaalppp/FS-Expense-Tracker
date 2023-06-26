@@ -18,7 +18,7 @@ signInForm.addEventListener('submit', async (e) => {
             setAlert(result);
             localStorage.setItem('token', result.data.token);
             setTimeout(() => {
-                window.location.href = '../../views/expense.html';
+                window.location = 'file:///D:/Projects/Web/ExpenseTracker/views/dashboard/test.html';
             }, 2000);
         }
 

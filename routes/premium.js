@@ -11,7 +11,4 @@ const router = express.Router();
 
 router.get('/leaderboard', userAuthentication.authenticate, premiumController.getLeaderboardData);
 
-
-
-
 module.exports = router;

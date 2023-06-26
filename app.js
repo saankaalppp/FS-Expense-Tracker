@@ -11,8 +11,10 @@ const path = require('path');
 
 
 const cors = require('cors');
+const Income = require('./models/income');
 const Expense = require('./models/expense');
 const User = require('./models/user');
+const FilesDownloaded = require('./models/filesdownloaded');
 const ForgotPasswordRequests = require('./models/forgotpasswordrequest');
 const jade = require('ejs');
 const Order = require('./models/order');
@@ -40,6 +42,13 @@ Order.belongsTo(User);
 
 User.hasMany(ForgotPasswordRequests);
 ForgotPasswordRequests.belongsTo(User);
+
+
+User.hasMany(FilesDownloaded);
+FilesDownloaded.belongsTo(User);
+
+User.hasMany(Income);
+Income.belongsTo(User);
 
 sequelize
     // .sync({ force: true })

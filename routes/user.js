@@ -1,5 +1,6 @@
 const userController = require('../controllers/user');
 const forgotPasswordValidation = require('../middleware/forgotpasswordvalidation');
+const userAuthentication = require('../middleware/userauthentication');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
@@ -12,5 +13,7 @@ router.post('/password/forgotpassword', userController.forgotPassword);
 
 router.get('/password/resetpassword/:requestId',forgotPasswordValidation.validateRequest, userController.getResetPassword);
 router.post('/password/updatepassword/:requestId', forgotPasswordValidation.validateRequest,  userController.postUpdatePassword);
+
+router.get('/filesdownloaded/', userAuthentication.authenticate, userController.getFilesDownloaded);
 
 module.exports = router;
