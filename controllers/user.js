@@ -8,6 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 const sequelize = require('../util/database');
 const path = require('path');
 require('dotenv').config();
+const pageLimit=5;
 
 const postUserSignUp = async (req, res, next) => {
     try {
@@ -162,8 +163,25 @@ const postUpdatePassword = async (req, res, next) => {
 
 const getFilesDownloaded = async (req, res) => {
     try {
-        const result = await FilesDownloaded.findAll({ where: { userId: req.user.id } });
-        return res.status(200).json({ filesData: result, success: true });
+        const page = +req.query.page || 1;
+        const result = await FilesDownloaded.findAll({
+            where: { userId: req.user.id },
+            offset: (page-1)*pageLimit,
+            limit: pageLimit
+        });
+
+        const total = await FilesDownloaded.count({ where: { userId: req.user.id } });
+
+        const pageData = {
+            currentPage: page,
+            hasNextPage: (page*pageLimit) < total,
+            nextPage: page+1,
+            hasPreviousPage: (page > 1),
+            previousPage: page-1,
+            lastPage: Math.ceil(total/pageLimit)
+        }
+
+        return res.status(200).json({ filesData: result, pageData: pageData, success: true });
     } catch(err) {
         console.log(err);
         return res.status(500).json({ success: false, err: err });

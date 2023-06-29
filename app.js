@@ -8,11 +8,8 @@ const purchaseRoutes = require('./routes/purchase');
 const sequelize = require('./util/database');
 const express = require('express');
 const path = require('path');
-
-
 const cors = require('cors');
-const Income = require('./models/income');
-const Expense = require('./models/expense');
+const Entry = require('./models/entry');
 const User = require('./models/user');
 const FilesDownloaded = require('./models/filesdownloaded');
 const ForgotPasswordRequests = require('./models/forgotpasswordrequest');
@@ -34,8 +31,8 @@ app.use('/', dashboardRoutes);
 app.use('/premium', premiumRoutes);
 app.use('/purchase', purchaseRoutes);
 
-User.hasMany(Expense);
-Expense.belongsTo(User);
+User.hasMany(Entry);
+Entry.belongsTo(User);
 
 User.hasMany(Order);
 Order.belongsTo(User);
@@ -47,8 +44,6 @@ ForgotPasswordRequests.belongsTo(User);
 User.hasMany(FilesDownloaded);
 FilesDownloaded.belongsTo(User);
 
-User.hasMany(Income);
-Income.belongsTo(User);
 
 sequelize
     // .sync({ force: true })

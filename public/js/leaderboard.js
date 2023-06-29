@@ -1,15 +1,55 @@
 let content = document.getElementById('content');
-let goBackBtn = document.getElementById('gobackbtn');
+let page;
 
-const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3000'
-});
+
 window.addEventListener('DOMContentLoaded', () => {
+    page=1;
     render();
 });
+function addPaginationBtns(data) {
+    const btnsC = document.createElement('div');
+    btnsC.id='btnsC';
+    btnsC.style.display = 'inline-block';
+    btnsC.className = 'w-25 d-flex justify-content-center align-items-center m-auto mt-5';
+
+    if(data.hasPreviousPage) {
+        const btn2 = document.createElement('button');
+        btn2.innerHTML = data.previousPage;
+        btn2.addEventListener('click', (e) => {
+            page=e.target.innerHTML;
+            render();
+        });
+        btnsC.appendChild(btn2);
+    }
+
+    const btn1 = document.createElement('button');
+    btn1.innerHTML = data.currentPage;
+    btn1.className = 'mx-2 bg-dark text-white';
+
+    btn1.addEventListener('click', (e) => {
+        page=e.target.innerHTML;
+        render();
+    });
+    btnsC.appendChild(btn1);
+
+    console.log(data.hasNextPage);
+
+    if(data.hasNextPage) {
+        const btn3 = document.createElement('button');
+        btn3.innerHTML = data.nextPage;
+        btn3.addEventListener('click', (e) => {
+            page=e.target.innerHTML;
+            render();
+        });
+        btnsC.appendChild(btn3);
+    }
+
+    content.appendChild(btnsC);
+}
 
 async function render() {
-    const token = localStorage.getItem('token');
+    if(document.getElementById('btnsC'))
+        document.getElementById('btnsC').remove();
     let result;
     try{
         result = await axiosInstance.get('/premium/leaderboard', { headers: { 'Authorization': token } });

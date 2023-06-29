@@ -1,23 +1,15 @@
-const expenseController = require('../controllers/expense');
-const incomeController = require('../controllers/income');
+const entryController = require('../controllers/entry');
 const leaderboardController = require('../controllers/premium');
 const userAuthentication = require('../middleware/userauthentication');
 const express = require('express');
 const router = express.Router();
 
-router.get('/expenses', userAuthentication.authenticate,  expenseController.getExpenses);
+router.get('/Entries', userAuthentication.authenticate,  entryController.getEntries);
 
-router.post('/add-expense', userAuthentication.authenticate, expenseController.postAddExpense);
+router.post('/add-entry', userAuthentication.authenticate, entryController.postAddEntry);
 
-router.post('/delete-expense/', userAuthentication.authenticate, expenseController.postDeleteExpense);
+router.post('/delete-entry/', userAuthentication.authenticate, entryController.postDeleteEntry);
 
-router.post('/add-income', userAuthentication.authenticate, incomeController.postAddIncome);
-
-router.post('/incomes', userAuthentication.authenticate, incomeController.getIncomes);
-
-router.post('/delete-income', userAuthentication.authenticate, incomeController.postDeleteIncome);
-
-
-router.get('/download/', userAuthentication.authenticate, expenseController.downloadExpenses);
+router.get('/download/', userAuthentication.authenticate, entryController.downloadEntries);
 
 module.exports = router;
